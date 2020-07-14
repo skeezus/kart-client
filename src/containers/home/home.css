@@ -1,0 +1,30 @@
+
+.mapContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.plusBtn {
+    border: none;
+    background-color: Transparent;
+    outline: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    /*transform-origin: bottom right;*/
+    /*transform: translate(100%, 100%);*/
+}
+
+.closeBtn {
+    position: absolute;
+    right: 0;
+}
+
+.dialogTitle {
+    margin: 0;
+}
