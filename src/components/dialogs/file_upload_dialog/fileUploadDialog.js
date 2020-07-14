@@ -15,11 +15,16 @@ import './fileUploadDialog.css';
 
 
 let openDialogFn;
+let closeDialogFn;
 
 const styles = (theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 20
   },
   closeButton: {
     position: 'absolute',
@@ -37,7 +42,7 @@ const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle className={classes.root}>
-      <Typography variant="h6">{children}</Typography>
+      <Typography className={classes.title}>{children}</Typography>
         <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
           <CloseIcon />
         </IconButton>
@@ -47,6 +52,7 @@ const DialogTitle = withStyles(styles)((props) => {
 
 function FileUploadDialog(props) {
     const [open, setOpen] = useState(false);
+    //const fileRef = React.createRef();
 
     const openDialog = () => {
         setOpen(true);
@@ -58,6 +64,7 @@ function FileUploadDialog(props) {
 
     useEffect(() => { // Similar to componentDidMount and componentDidUpdate:
         openDialogFn = openDialog;
+        closeDialogFn = closeDialog;
     });
 
     return (
@@ -65,7 +72,7 @@ function FileUploadDialog(props) {
         <Dialog open={open}>
             <DialogTitle id="customized-dialog-title" onClose={closeDialog}>{props.dialogName}</DialogTitle>
             <div>
-                <input type="file" className="fileInput" />
+                <input type="file" className="fileInput" onChange={props.fileChangeHandler} />
             </div>
             <DialogActions style={{justifyContent: 'center'}}>
                 <Button autoFocus onClick={props.uploadHandler} variant="contained" color="primary">
@@ -78,6 +85,10 @@ function FileUploadDialog(props) {
 
 export function openFileUploadDialog() {
     openDialogFn();
+}
+
+export function closeFileUploadDialog() {
+    closeDialogFn();
 }
 
 export default FileUploadDialog;

@@ -20,8 +20,12 @@ const styles = (theme) => ({
     margin: 0,
     padding: theme.spacing(2),
   },
+  title: {
+    fontWeight: "bold",
+    fontSize: 20
+  },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
@@ -32,7 +36,7 @@ const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle className={classes.root}>
-      <Typography variant="h6">{children}</Typography>
+      <Typography className={classes.title}>{children}</Typography>
         <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
           <CloseIcon />
         </IconButton>
