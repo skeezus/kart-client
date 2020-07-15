@@ -1,0 +1,26 @@
+
+p { /* p adds top margin */
+    margin: 0;
+}
+
+div:focus { /* contenteditable adds outline on focus */
+    outline: none;
+}
+
+.container {
+    height: 100vh;
+    background-color: #262A2E;
+}
+
+.editor {
+    padding: 30px 0 0 30px;
+}
+
+.rowNumber {
+    color:#696969;
+    font-size: 13px;
+}
+
+div p {
+    line-height: 1.4;
+}

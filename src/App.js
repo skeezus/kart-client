@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import HomeContainer from './containers/home/home';
-import './App.css';
+import PlaygroundContainer from './containers/playground/playground';
 
 
 /* 
@@ -20,6 +20,7 @@ function App() {
         <Router>
             <div>
                 <Route path="/" exact component={HomeContainer}/>
+                <Route path="/playground" exact component={PlaygroundContainer}/>
             </div>
         </Router>
     );
