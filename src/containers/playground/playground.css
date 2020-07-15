@@ -1,5 +1,9 @@
 
-p { /* p adds top margin */
+p { 
+    margin: 0;
+}
+
+pre { /* adds top margin */
     margin: 0;
 }
 
@@ -14,6 +18,19 @@ div:focus { /* contenteditable adds outline on focus */
 
 .editor {
     padding: 30px 0 0 30px;
+    line-height: 1.4;
+}
+
+.lineNumbers {
+    float: left;
+    width: 2%;
+}
+
+.content {
+    float: left;
+    width: 98%;
+    height: 100%;
+    color: #ffffff;
 }
 
 .rowNumber {
