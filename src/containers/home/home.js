@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl';
-import requestManager, { DATA_REQUEST } from '../../services/requests';
+import Button from '@material-ui/core/Button';
+
 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json5";
@@ -8,6 +9,7 @@ import "ace-builds/src-noconflict/theme-nord_dark";
 
 import ListDialog, { openListDialog, closeListDialog } from '../../components/dialogs/list_dialog/listDialog';
 import FileUploadDialog, { openFileUploadDialog, closeFileUploadDialog } from '../../components/dialogs/file_upload_dialog/fileUploadDialog';
+import requestManager, { DATA_REQUEST } from '../../services/requests';
 import plusBtn from '../../assets/icons/add_circle_oj_48dp.png';
 import './home.css';
 
@@ -140,6 +142,14 @@ class HomeContainer extends Component {
         console.log("change", newValue);
     }
 
+    loadDataFromEditor() {
+        console.log("load data from editor");
+    }
+
+    closeEditor() {
+        this.setState({mapStyle: { width: "100%" }, editorStyle: {display: "none"}});
+    }
+
     editorCode = (
 `[
     {
@@ -163,25 +173,40 @@ class HomeContainer extends Component {
 
         return (
             <div>
-                <AceEditor
-                    mode="json5"
-                    theme="nord_dark"
-                    className="json-editor"
-                    onChange={(event)=>this.onChangeEditor(event)}
-                    name="ace-editor"
-                    height="100vh"
-                    showGutter={true}
-                    style={this.state.editorStyle}
-                    value={this.editorCode}
-                    editorProps={{ $blockScrolling: true }}
-                    setOptions={{
-                        useWorker: true,
-                    }}
-                />
+                <div className="editorContainer" style={this.state.editorStyle}>
+                    <AceEditor
+                        mode="json5"
+                        theme="nord_dark"
+                        className="jsonEditor"
+                        name="ace-editor"
+                        height="82%"
+                        width="100%"
+                        onChange={(event)=>this.onChangeEditor(event)}
+                        wrapEnabled={true}
+                        showGutter={true}
+                        value={this.editorCode}
+                        editorProps={{ $blockScrolling: true }}
+                        setOptions={{
+                            useWorker: true,
+                        }}
+                    />
+                    <div className="editButtonContainer">
+                        <div className="leftEditorButton">
+                            <Button variant="contained" color="primary" style={{maxWidth: "100px", minWidth: "100px"}} onClick={() => this.loadDataFromEditor()}>
+                                Load
+                            </Button>
+                        </div>
+                        <div className="rightEditorButton">
+                            <Button variant="contained" color="secondary" style={{maxWidth: "100px", minWidth: "100px"}} onClick={() => this.closeEditor()}>
+                                Close
+                            </Button>
+                        </div>
+                    </div>
+                </div>
                 <div ref={el => this.mapContainer = el} className="mapContainer" style={this.state.mapStyle} />
                 <button className="plusBtn"><img src={plusBtn} height="75" width="75" alt="plus button" onClick={this.handleOpenListDialog}/></button>
                 <ListDialog dialogName="Add Map Data" lists={dialogList} />
-                <FileUploadDialog dialogName="CSV Upload" fileChangeHandler={(event)=>this.onChange(event)} uploadHandler={(event) => this.onClickUploadCSV(event)} />
+                <FileUploadDialog dialogName="CSV Upload" fileChangeHandler={(event) => this.onChange(event)} uploadHandler={(event) => this.onClickUploadCSV(event)} />
             </div>
         )
     }
