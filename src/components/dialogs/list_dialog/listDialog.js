@@ -66,8 +66,8 @@ function ListDialog(props) {
           <List>
               <Divider />
               {props.lists.map((list) => (
-                  <div>
-                    <ListItem button key={list.id} onClick={list.handler}>
+                  <div key={list.id}>
+                    <ListItem button onClick={list.handler}>
                         <ListItemText primary={list.primaryText} secondary={list.secondaryText}/>
                     </ListItem>
                     <Divider />
