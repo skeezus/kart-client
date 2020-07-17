@@ -13,6 +13,7 @@ import requestManager, { DATA_REQUEST } from '../../services/requests';
 import plusBtn from '../../assets/icons/add_circle_oj_48dp.png';
 import './home.css';
 
+let jsonMapDataStr;
 
 class HomeContainer extends Component {
 
@@ -27,10 +28,6 @@ class HomeContainer extends Component {
             mapStyle: { width: "100%" },
             editorStyle: { display: "none" }
         };
-        
-        this.editor = null;
-        this.file = null;
-        this.map = null;
 
         console.log("[home.js] constructor", props);
     }
@@ -55,6 +52,7 @@ class HomeContainer extends Component {
       }
 
     onResponseHandler = (success, response) => {
+        console.log(response.data)
         this.setState({mapData: response.data});
 
         if(success) {
@@ -114,11 +112,11 @@ class HomeContainer extends Component {
 
     onChangeEditor(newValue) {
         // update local json variable
-        console.log("change", newValue);
+        jsonMapDataStr = newValue;
     }
 
     loadDataFromEditor() {
-        // set state with json
+        this.setState({mapData: JSON.parse(jsonMapDataStr)});
         // restore editor code
         // close editor
         this.closeEditor()
@@ -128,8 +126,7 @@ class HomeContainer extends Component {
         this.setState({mapStyle: { width: "100%" }, editorStyle: {display: "none"}});
     }
 
-    editorCode = (
-`[
+    editorCode = (`[
     {
         "name": "my house",
         "longitude": "-105.0562099",
@@ -140,8 +137,7 @@ class HomeContainer extends Component {
         "longitude": "-106.0562099",
         "latitude": "40.7453018"
     },
-]`
-)
+]`)
 
     render() { // The mapContainer ref specifies that map should be drawn to the HTML page in a new <div> element.
         // https://material-ui.com/components/dialogs/

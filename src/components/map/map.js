@@ -27,8 +27,10 @@ const MapContainer = (props) => {
         console.log("[map_container.js] use effect", props);
 
         removeMapFn = removeMap;
-
-        setMap();
+        
+        if(mapInstance == null) {
+            setMap();
+        }
         createMarkers();
     }); // // passing an empty array tells react to only do the effect on screen load
 
