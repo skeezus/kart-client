@@ -70,5 +70,3 @@ const LoginContainer = (props) => {
 
 
 export default LoginContainer;
-
-

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import mapboxgl from 'mapbox-gl';
 import Button from '@material-ui/core/Button';
 
 
@@ -9,26 +8,16 @@ import "ace-builds/src-noconflict/theme-nord_dark";
 
 import ListDialog, { openListDialog, closeListDialog } from '../../components/dialogs/list_dialog/listDialog';
 import FileUploadDialog, { openFileUploadDialog, closeFileUploadDialog } from '../../components/dialogs/file_upload_dialog/fileUploadDialog';
+import MapContainer, { removeMap } from '../../components/map/map';
 import requestManager, { DATA_REQUEST } from '../../services/requests';
 import plusBtn from '../../assets/icons/add_circle_oj_48dp.png';
 import './home.css';
 
 
-/*
- * https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
- * https://blog.mapbox.com/mapbox-gl-js-react-764da6cc074a
- * https://github.com/mapbox/mapbox-react-examples/
- * 
- * https://nordicapis.com/porting-a-js-library-to-a-react-component/
- * https://www.digitalocean.com/community/tutorials/wrap-a-vanilla-javascript-package-for-use-in-react
- */
-
 class HomeContainer extends Component {
 
     constructor(props) {
         super(props);
-
-        mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
         this.state = {
             lng: -105.0294309,
@@ -51,13 +40,7 @@ class HomeContainer extends Component {
      * initializing your map here ensures that Mapbox GL JS will not try to render a map before React creates the element that contains the map
      */
     componentDidMount() {
-        this.map = new mapboxgl.Map({
-            container: this.mapContainer,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            //style: 'mapbox://styles/mapbox/satellite-streets-v11',
-            center: [this.state.lng, this.state.lat],
-            zoom: this.state.zoom
-        });
+        console.log("[home.js] component did mount");
     }
 
     /*
@@ -67,14 +50,15 @@ class HomeContainer extends Component {
      * src: https://reactjs.org/docs/integrating-with-other-libraries.html
      */
     componentWillUnmount() {
-        //this.map.remove();
+        console.log("[home.js] component will unmount");
+        removeMap();
       }
 
     onResponseHandler = (success, response) => {
+        this.setState({mapData: response.data});
+
         if(success) {
-            this.setState({mapData: response.data});
             closeFileUploadDialog();
-            //props.history.push("/logs");
         } else {
             alert(response);
         }
@@ -128,22 +112,16 @@ class HomeContainer extends Component {
         ]
     }
 
-    createMarkers = () => {
-        this.state.mapData.forEach(point => {
-             new mapboxgl.Marker()
-                .setLngLat([point.longitude, point.latitude])
-                .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-                    .setHTML('<h3>' + point.name + '</h3>'))
-                .addTo(this.map);
-        })
-    }
-
     onChangeEditor(newValue) {
+        // update local json variable
         console.log("change", newValue);
     }
 
     loadDataFromEditor() {
-        console.log("load data from editor");
+        // set state with json
+        // restore editor code
+        // close editor
+        this.closeEditor()
     }
 
     closeEditor() {
@@ -167,8 +145,6 @@ class HomeContainer extends Component {
 
     render() { // The mapContainer ref specifies that map should be drawn to the HTML page in a new <div> element.
         // https://material-ui.com/components/dialogs/
-
-        this.createMarkers();
         let dialogList = this.getDialogList();
 
         return (
@@ -203,7 +179,7 @@ class HomeContainer extends Component {
                         </div>
                     </div>
                 </div>
-                <div ref={el => this.mapContainer = el} className="mapContainer" style={this.state.mapStyle} />
+                <MapContainer points={this.state.mapData} lat={this.state.lat} lng={this.state.lng} zoom={this.state.zoom} mapStyle={this.state.mapStyle} />
                 <button className="plusBtn"><img src={plusBtn} height="75" width="75" alt="plus button" onClick={this.handleOpenListDialog}/></button>
                 <ListDialog dialogName="Add Map Data" lists={dialogList} />
                 <FileUploadDialog dialogName="CSV Upload" fileChangeHandler={(event) => this.onChange(event)} uploadHandler={(event) => this.onClickUploadCSV(event)} />
