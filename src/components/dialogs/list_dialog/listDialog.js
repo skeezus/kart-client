@@ -78,6 +78,8 @@ function ListDialog(props) {
     );
 }
 
+export default ListDialog;
+
 export function openListDialog() {
     openDialogFn();
 }
@@ -85,5 +87,3 @@ export function openListDialog() {
 export function closeListDialog() {
     closeDialogFn();
 }
-
-export default ListDialog;

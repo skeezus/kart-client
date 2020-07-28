@@ -9,6 +9,7 @@ import './map.css';
  * https://blog.mapbox.com/mapbox-gl-js-react-764da6cc074a
  * https://github.com/mapbox/mapbox-react-examples/
  * 
+ * https://www.npmjs.com/package/google-maps-react
  * https://www.newline.co/fullstack-react/articles/how-to-write-a-google-maps-react-component/
  * https://nordicapis.com/porting-a-js-library-to-a-react-component/
  * https://www.digitalocean.com/community/tutorials/wrap-a-vanilla-javascript-package-for-use-in-react
@@ -41,6 +42,7 @@ const MapContainer = (props) => {
             center: [props.lng, props.lat],
             zoom: props.zoom
         });
+        mapInstance.addControl(new mapboxgl.NavigationControl());
     }
 
     function removeMap() {

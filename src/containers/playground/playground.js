@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
+import MenuIcon from '../../components/icons/menuIcon'
 
 import "./playground.css";
 
@@ -78,6 +79,7 @@ const PlaygroundContainer = (props) => {
     return(
         <>
           <div className="container">
+          <MenuIcon fontSize="large" style={{ color: "#fca311", marginTop: "15px", marginLeft: "15px" }} />
             <div className="editor">
                 <pre>
                     <div className="lineNumbers">

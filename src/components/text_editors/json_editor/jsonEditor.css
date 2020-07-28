@@ -1,0 +1,36 @@
+
+.editorContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 30%;
+    background-color: #2E3440;
+}
+
+.jsonEditor {
+    margin: 20px 0 10px 0;
+}
+
+.leftEditorButton {
+    position: absolute;
+    left: 15%;
+}
+
+.rightEditorButton {
+    position: absolute;
+    right: 15%;
+}
+
+@media screen and (max-width: 950px) {
+    .leftEditorButton {
+        position: static;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .rightEditorButton {
+        position: static;
+        text-align: center;
+    }
+}

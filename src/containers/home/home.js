@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
 
-
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-json5";
-import "ace-builds/src-noconflict/theme-nord_dark";
-
-import ListDialog, { openListDialog, closeListDialog } from '../../components/dialogs/list_dialog/listDialog';
 import FileUploadDialog, { openFileUploadDialog, closeFileUploadDialog } from '../../components/dialogs/file_upload_dialog/fileUploadDialog';
+import JsonEditor, { openEditor, closeEditor, getMapDataFromEditor } from '../../components/text_editors/json_editor/jsonEditor';
+import ListDialog, { openListDialog, closeListDialog } from '../../components/dialogs/list_dialog/listDialog';
 import MapContainer, { removeMap } from '../../components/map/map';
-import requestManager, { DATA_REQUEST } from '../../services/requests';
 import plusBtn from '../../assets/icons/add_circle_oj_48dp.png';
+import MenuIcon from '../../components/icons/menuIcon'
 import './home.css';
 
-let jsonMapDataStr;
+import requestManager, { DATA_REQUEST } from '../../services/requests';
+
 
 class HomeContainer extends Component {
 
@@ -26,7 +22,6 @@ class HomeContainer extends Component {
             zoom: 13,
             mapData: [],
             mapStyle: { width: "100%" },
-            editorStyle: { display: "none" }
         };
 
         console.log("[home.js] constructor", props);
@@ -78,13 +73,18 @@ class HomeContainer extends Component {
     }
 
     handleOpenEditorDialog = () => {
-        this.setState({mapStyle: { width: "70%" }, editorStyle: {display: "block"}});
+        this.setState({mapStyle: { width: "70%" }});
 
+        openEditor()
         closeListDialog()
     }
 
     onClickUploadCSV = (event) => {
         requestManager.execute(DATA_REQUEST, this.file, this.onResponseHandler);
+    }
+
+    onClickMenu = (event) => {
+        console.log("menu clicked")
     }
 
     getDialogList = () => {
@@ -110,20 +110,16 @@ class HomeContainer extends Component {
         ]
     }
 
-    onChangeEditor(newValue) {
-        // update local json variable
-        jsonMapDataStr = newValue;
+    onClickCloseEditor() {
+        this.setState({mapStyle: { width: "100%" }});
+
+        closeEditor();
     }
 
-    loadDataFromEditor() {
-        this.setState({mapData: JSON.parse(jsonMapDataStr)});
+    onClickLoadDataFromEditor = () => {
+        this.setState({mapData: getMapDataFromEditor()});
         // restore editor code
-        // close editor
-        this.closeEditor()
-    }
-
-    closeEditor() {
-        this.setState({mapStyle: { width: "100%" }, editorStyle: {display: "none"}});
+        this.onClickCloseEditor()
     }
 
     editorCode = (`[
@@ -144,37 +140,10 @@ class HomeContainer extends Component {
         let dialogList = this.getDialogList();
 
         return (
+            // marginTop: "15px", marginLeft: "15px", 
             <div>
-                <div className="editorContainer" style={this.state.editorStyle}>
-                    <AceEditor
-                        mode="json5"
-                        theme="nord_dark"
-                        className="jsonEditor"
-                        name="ace-editor"
-                        height="82%"
-                        width="100%"
-                        onChange={(event)=>this.onChangeEditor(event)}
-                        wrapEnabled={true}
-                        showGutter={true}
-                        value={this.editorCode}
-                        editorProps={{ $blockScrolling: true }}
-                        setOptions={{
-                            useWorker: true,
-                        }}
-                    />
-                    <div className="editButtonContainer">
-                        <div className="leftEditorButton">
-                            <Button variant="contained" color="primary" style={{maxWidth: "100px", minWidth: "100px"}} onClick={() => this.loadDataFromEditor()}>
-                                Load
-                            </Button>
-                        </div>
-                        <div className="rightEditorButton">
-                            <Button variant="contained" color="secondary" style={{maxWidth: "100px", minWidth: "100px"}} onClick={() => this.closeEditor()}>
-                                Close
-                            </Button>
-                        </div>
-                    </div>
-                </div>
+                <MenuIcon fontSize="large" onClick={this.onClickMenu} style={{ color: "#fca311", position: "absolute", top: 10, left: 15, zIndex: 3}} />
+                <JsonEditor value={this.editorCode} closeEditor={(event) => this.onClickCloseEditor(event)} loadDataFromEditor={(event) => this.onClickLoadDataFromEditor(event)} />
                 <MapContainer points={this.state.mapData} lat={this.state.lat} lng={this.state.lng} zoom={this.state.zoom} mapStyle={this.state.mapStyle} />
                 <button className="plusBtn"><img src={plusBtn} height="75" width="75" alt="plus button" onClick={this.handleOpenListDialog}/></button>
                 <ListDialog dialogName="Add Map Data" lists={dialogList} />
