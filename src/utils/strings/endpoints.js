@@ -1,3 +1,3 @@
 
 // resources
-export const DATA_RESOURCE = "data";
+export const DATA_RESOURCE = "data/csv";

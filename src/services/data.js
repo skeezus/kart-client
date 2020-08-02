@@ -16,9 +16,11 @@ export default function dataRequest(file, onResponseHandler) {
         if(response.status === 200){
             onResponseHandler(true, response)
         } else {
+            console.log(response)
             onResponseHandler(false, response)
         }
     }).catch(function(error) {
+        console.log(error)
         /*
          * The request was made and the server responded with a status code
          * that falls out of the range of 2xx

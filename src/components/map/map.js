@@ -38,7 +38,7 @@ const MapContainer = (props) => {
     function setMap() {
         mapInstance = new mapboxgl.Map({
             container: mapContainer,
-            style: 'mapbox://styles/mapbox/streets-v11', // 'mapbox://styles/mapbox/satellite-streets-v11'
+            style: 'mapbox://styles/mapbox/satellite-streets-v11', // 'mapbox://styles/mapbox/satellite-streets-v11'
             center: [props.lng, props.lat],
             zoom: props.zoom
         });

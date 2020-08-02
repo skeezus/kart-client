@@ -24,14 +24,10 @@ function JsonEditor(props) {
     }
 
     const onChangeEditor = (newValue) => {
-        console.log("on change editor")
         jsonMapDataStr = newValue; // update local json variable
-        console.log(jsonMapDataStr)
     }
 
     const getMapData = () => {
-        console.log("get map data")
-        console.log(jsonMapDataStr)
         return JSON.parse(jsonMapDataStr);
     }
 

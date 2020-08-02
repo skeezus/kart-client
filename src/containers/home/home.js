@@ -11,6 +11,11 @@ import './home.css';
 import requestManager, { DATA_REQUEST } from '../../services/requests';
 
 
+/*
+ * Future:
+ * allow map customization
+ * data clusters
+ */
 class HomeContainer extends Component {
 
     constructor(props) {
@@ -103,6 +108,12 @@ class HomeContainer extends Component {
             },
             {
                 id: 3,
+                primaryText: 'Public Data',
+                secondaryText: 'View public datasets',
+                handler: null
+            },
+            {
+                id: 4,
                 primaryText: 'Google Sheets',
                 secondaryText: 'Click to connect Google Account',
                 handler: null
@@ -132,7 +143,7 @@ class HomeContainer extends Component {
         "name": "your house",
         "longitude": "-106.0562099",
         "latitude": "40.7453018"
-    },
+    }
 ]`)
 
     render() { // The mapContainer ref specifies that map should be drawn to the HTML page in a new <div> element.
